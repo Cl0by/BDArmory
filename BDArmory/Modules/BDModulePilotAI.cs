@@ -116,6 +116,10 @@ namespace BDArmory.Modules
         public float maxAllowedAoA = 35;
         float maxAllowedCosAoA;
         float lastAllowedAoA;
+        
+        [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "#LOC_BDArmory_angleOfAvoidance"),//Angle Of Avoidance
+            UI_FloatRange(minValue = 0f, maxValue = 90f, stepIncrement = 5f, scene = UI_Scene.All)]
+        public float angle of avoidance = 35;
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "#LOC_BDArmory_Orbit", advancedTweakable = true),//Orbit 
             UI_Toggle(enabledText = "#LOC_BDArmory_Orbit_enabledText", disabledText = "#LOC_BDArmory_Orbit_disabledText", scene = UI_Scene.All),]//Starboard (CW)--Port (CCW)
@@ -124,6 +128,14 @@ namespace BDArmory.Modules
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Extend Toggle", advancedTweakable = true),//Extend Toggle
         UI_Toggle(enabledText = "Extend Enabled", disabledText = "Extend Disabled", scene = UI_Scene.All),]
         public bool canExtend = true;
+        
+         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Collision Avoidance Toggle", advancedTweakable = true),//Collision Avoidance Toggle
+        UI_Toggle(enabledText = "Collision Avoidance Enabled", disabledText = "Collision Avoidance Disabled", scene = UI_Scene.All),]
+        public bool collisionAvoidance = true;
+        
+         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Evasion Toggle", advancedTweakable = true),//Collision Avoidance Toggle
+        UI_Toggle(enabledText = "Evasion Enabled", disabledText = "Evasion Disabled", scene = UI_Scene.All),]
+        public bool evasionToggle = true;
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "#LOC_BDArmory_UnclampTuning", advancedTweakable = true),//Unclamp tuning 
             UI_Toggle(enabledText = "#LOC_BDArmory_UnclampTuning_enabledText", disabledText = "#LOC_BDArmory_UnclampTuning_disabledText", scene = UI_Scene.All),]//Unclamped--Clamped
@@ -144,6 +156,7 @@ namespace BDArmory.Modules
             { nameof(idleSpeed), 3000f },
             { nameof(maxAllowedGForce), 1000f },
             { nameof(maxAllowedAoA), 180f },
+            { nameof(angleOfAvoidance), 180f },
         };
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "#LOC_BDArmory_StandbyMode"),//Standby Mode
@@ -244,10 +257,15 @@ namespace BDArmory.Modules
             sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Idle Speed</color> - Cruising speed when not in combat");
             sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Max G</color> - AI will try not to perform maneuvers at higher G than this");
             sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Max AoA</color> - AI will try not to exceed this angle of attack");
+            sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Angle Of Avoidance</color> - AI will bank at this angle when avoiding a collision");
+            
             if (GameSettings.ADVANCED_TWEAKABLES)
-            {
+            { 
+                sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Evasion Toggle</color> - Toggles evasion");
+                sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Collision Avoidance Toggle</color> - Toggles collision avoidance");
                 sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Orbit</color> - Which direction to orbit when idling over a location");
                 sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Unclamp tuning</color> - Increases variable limits, no direct effect on behaviour");
+                
             }
             sb.AppendLine($"<color={XKCDColors.HexFormat.Cyan}>- Standby Mode</color> - AI will not take off until an enemy is detected");
 
@@ -397,7 +415,7 @@ namespace BDArmory.Modules
             }
             else
             {
-                if (FlyAvoidCollision(s))
+                if (FlyAvoidCollision(s) && collisionAvoidance)
                 {
                     turningTimer = 0;
                 }
@@ -425,7 +443,7 @@ namespace BDArmory.Modules
                 lastTargetPosition = requestedExtendTpos;
             }
 
-            if (evasiveTimer > 0 || (weaponManager && (weaponManager.missileIsIncoming || weaponManager.isChaffing || weaponManager.isFlaring || weaponManager.underFire)))
+            if (evasiveTimer > 0 || (weaponManager && evasionToggle && (weaponManager.missileIsIncoming || weaponManager.isChaffing || weaponManager.isFlaring || weaponManager.underFire)))
             {
                 if (evasiveTimer < 1)
                 {
@@ -558,8 +576,8 @@ namespace BDArmory.Modules
                 FlyExtend(s, lastTargetPosition);
             }
         }
-
-        bool FlyAvoidCollision(FlightCtrlState s)
+        
+        bool (FlyAvoidCollision(FlightCtrlState s) && collisionAvoidance)
         {
             if (collisionDetectionTimer > 2)
             {
@@ -608,7 +626,7 @@ namespace BDArmory.Modules
                 if (!avoid) return false;
                 collisionDetectionTimer += Time.fixedDeltaTime;
                 Vector3 axis = -Vector3.Cross(vesselTransform.up, badDirection);
-                collisionAvoidDirection = Quaternion.AngleAxis(25, axis) * badDirection;        //don't need to change the angle that much to avoid, and it should prevent stupid suicidal manuevers as well
+                collisionAvoidDirection = Quaternion.AngleAxis(angleOfAvoidance, axis) * badDirection;        //don't need to change the angle that much to avoid, and it should prevent stupid suicidal manuevers as well
 
                 FlyAvoidCollision(s);
                 return true;
