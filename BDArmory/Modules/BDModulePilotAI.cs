@@ -16,7 +16,7 @@ namespace BDArmory.Modules
 {
     public class BDModulePilotAI : BDGenericAIBase, IBDAIControl
     {
-        public enum SteerModes { NormalFlight, Aiming }
+        public enum SteerModes { NormalFlight, Aiming, Ramming }
 
         SteerModes steerMode = SteerModes.NormalFlight;
 
@@ -115,9 +115,13 @@ namespace BDArmory.Modules
         public float maxAllowedAoA = 35;
         float maxAllowedCosAoA;
         float lastAllowedAoA;
+        
+        //[KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, category = "DoubleSlider", guiName = "#LOC_BDArmory_maxAllowedAoA"),//Max AoA
+          //          UI_FloatRange(minValue = 0f, maxValue = 85f, stepIncrement = 2.5f, scene = UI_Scene.All)]
+        
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "#LOC_BDArmory_Orbit", advancedTweakable = true),//Orbit 
-            UI_Toggle(enabledText = "#LOC_BDArmory_Orbit_enabledText", disabledText = "#LOC_BDArmory_Orbit_disabledText", scene = UI_Scene.All),]//Starboard (CW)--Port (CCW)
+         UI_Toggle(enabledText = "#LOC_BDArmory_Orbit_enabledText", disabledText = "#LOC_BDArmory_Orbit_disabledText", scene = UI_Scene.All),]//Starboard (CW)--Port (CCW)
         public bool ClockwiseOrbit = true;
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Extend Toggle", advancedTweakable = true),//Extend Toggle
@@ -634,7 +638,7 @@ namespace BDArmory.Modules
             float timeToImpact;
             Vector3 aamTarget = MissileGuidance.GetAirToAirTargetModular(v.transform.position, v.srf_velocity, v.acceleration, vessel, out timeToImpact);
             if (Vector3.Angle(aamTarget - vessel.transform.position, vessel.srf_vel_direction) > 180f) return false; // The target isn't infront of us, let the regular FlyToVessel do its job.
-
+            
             // Let's try to ram someone!
             if (!ramming)
                 ramming = true;
@@ -1959,6 +1963,7 @@ namespace BDArmory.Modules
 
         protected override void OnGUI()
         {
+            float timeToImpact; 
             base.OnGUI();
 
             if (!pilotEnabled || !vessel.isActiveVessel) return;
@@ -1974,6 +1979,8 @@ namespace BDArmory.Modules
 
             BDGUIUtils.DrawLineBetweenWorldPositions(vesselTransform.position, vesselTransform.position + rollTarget, 2, Color.blue);
             BDGUIUtils.DrawLineBetweenWorldPositions(vesselTransform.position + (0.05f * vesselTransform.right), vesselTransform.position + (0.05f * vesselTransform.right) + angVelRollTarget, 2, Color.green);
+            
+            BDGUIUtils.DrawLineBetweenWorldPositions(vessel.transform.position,  MissileGuidance.GetAirToAirTargetModular(targetVessel.transform.position, targetVessel.srf_velocity, targetVessel.acceleration, vessel, out timeToImpact), 5f, Color.yellow);
         }
     }
 }
