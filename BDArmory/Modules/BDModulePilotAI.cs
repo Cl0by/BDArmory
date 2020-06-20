@@ -1959,6 +1959,7 @@ namespace BDArmory.Modules
 
         protected override void OnGUI()
         {
+            float timeToImpact; 
             base.OnGUI();
 
             if (!pilotEnabled || !vessel.isActiveVessel) return;
@@ -1974,6 +1975,8 @@ namespace BDArmory.Modules
 
             BDGUIUtils.DrawLineBetweenWorldPositions(vesselTransform.position, vesselTransform.position + rollTarget, 2, Color.blue);
             BDGUIUtils.DrawLineBetweenWorldPositions(vesselTransform.position + (0.05f * vesselTransform.right), vesselTransform.position + (0.05f * vesselTransform.right) + angVelRollTarget, 2, Color.green);
+            
+            BDGUIUtils.DrawLineBetweenWorldPositions(vessel.transform.position,  MissileGuidance.GetAirToAirTargetModular(targetVessel.transform.position, targetVessel.srf_velocity, targetVessel.acceleration, vessel, out timeToImpact), 5f, Color.yellow);
         }
     }
 }
