@@ -74,7 +74,7 @@ namespace BDArmory.Modules
         
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Evasion Multiplier"),//Extend Distance Multiplier
          UI_FloatRange(minValue = 0f, maxValue = 2f, stepIncrement = .1f, scene = UI_Scene.All)]
-        public float evasionMult = 2f;
+        public float evasionMult = 1f;
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "#LOC_BDArmory_SteerFactor"),//Steer Factor
          UI_FloatRange(minValue = 0.1f, maxValue = 20f, stepIncrement = .1f, scene = UI_Scene.All)]
@@ -141,7 +141,7 @@ namespace BDArmory.Modules
         
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Evasion Toggle", advancedTweakable = true), //Toggle Dynamic Steer Dampening
          UI_Toggle(enabledText = "Enabled", disabledText = "Disabled", scene = UI_Scene.All),]
-        public bool EvasionToggle;
+        public bool EvasionToggle = false;
 
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Dynamic Steer Dampening", advancedTweakable = true), //Toggle Dynamic Steer Dampening
          UI_Toggle(enabledText = "Enabled", disabledText = "Disabled", scene = UI_Scene.All),]
