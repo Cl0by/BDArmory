@@ -293,12 +293,12 @@ namespace BDArmory.Modules
             var DynamicDampingRoll = Fields["dynamicDampingRoll"];
 
             
-            DampingMin.guiActive = CustomDynamicAxisFields;
-            DampingMin.guiActiveEditor = CustomDynamicAxisFields;
-            DampingMax.guiActive = CustomDynamicAxisFields;
-            DampingMax.guiActive = CustomDynamicAxisFields;
-            DampingFactor.guiActive = CustomDynamicAxisFields;
-            DampingFactor.guiActive = CustomDynamicAxisFields;
+            DampingMin.guiActive = !CustomDynamicAxisFields;
+            DampingMin.guiActiveEditor = !CustomDynamicAxisFields;
+            DampingMax.guiActive = !CustomDynamicAxisFields;
+            DampingMax.guiActive = !CustomDynamicAxisFields;
+            DampingFactor.guiActive = !CustomDynamicAxisFields;
+            DampingFactor.guiActive = !CustomDynamicAxisFields;
             
             DynamicPitchLabel.guiActive = CustomDynamicAxisFields;
             DynamicPitchLabel.guiActiveEditor = CustomDynamicAxisFields;
