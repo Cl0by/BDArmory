@@ -265,20 +265,11 @@ namespace BDArmory.Modules
             UI_Toggle(enabledText = "#LOC_BDArmory_On", disabledText = "#LOC_BDArmory_Off")]//On--Off
         public bool standbyMode = false;
 
-        [KSPEvent(isPersistent = true, guiActive = true, guiActiveEditor = true, guiName = "Custom Dynamic Dampening Axis Fields Disabled", active = true, advancedTweakable = true)]
+        [KSPEvent(isPersistent = true, guiActive = true, guiActiveEditor = true, guiName = "Custom Dynamic Dampening Axis Fields", active = true, advancedTweakable = true)]
         public void DynCustomAxisFields()
         {
             CustomDynamicAxisFields = !CustomDynamicAxisFields;
-                
-            if (!CustomDynamicAxisFields)
-            {
-                Fields["DynCustomAxisFields"].guiName = "Enable Custom Dynamic Damping Axis Fields";
-            }
-            else
-            {
-                Fields["DynCustomAxisFields"].guiName = "Disable Custom Dynamic Damping Axis Fields";
-            }
-
+           
             var DampingMin = Fields["DynamicDampingMin"];
             var DampingMax = Fields["DynamicDampingMax"];
             var DampingFactor = Fields["dynamicSteerDampingFactor"];
