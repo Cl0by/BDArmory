@@ -296,9 +296,9 @@ namespace BDArmory.Modules
             DampingMin.guiActive = !CustomDynamicAxisFields;
             DampingMin.guiActiveEditor = !CustomDynamicAxisFields;
             DampingMax.guiActive = !CustomDynamicAxisFields;
-            DampingMax.guiActive = !CustomDynamicAxisFields;
+            DampingMax.guiActiveEditor = !CustomDynamicAxisFields;
             DampingFactor.guiActive = !CustomDynamicAxisFields;
-            DampingFactor.guiActive = !CustomDynamicAxisFields;
+            DampingFactor.guiActiveEditor = !CustomDynamicAxisFields;
             
             DynamicPitchLabel.guiActive = CustomDynamicAxisFields;
             DynamicPitchLabel.guiActiveEditor = CustomDynamicAxisFields;
