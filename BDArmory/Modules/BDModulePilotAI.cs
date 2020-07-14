@@ -269,71 +269,7 @@ namespace BDArmory.Modules
         public void DynCustomAxisFields()
         {
             CustomDynamicAxisFields = !CustomDynamicAxisFields;
-           
-            var DampingMin = Fields["DynamicDampingMin"];
-            var DampingMax = Fields["DynamicDampingMax"];
-            var DampingFactor = Fields["dynamicSteerDampingFactor"];
-            
-            var DynamicPitchLabel = Fields["PitchLabel"];
-            var DynamicDampingPitchMaxField = Fields["DynamicDampingPitchMax"];
-            var DynamicDampingPitchMinField = Fields["DynamicDampingPitchMin"];
-            var DynamicDampingPitchFactorField = Fields["dynamicSteerDampingPitchFactor"];
-            var DynamicDampingPitch = Fields["dynamicDampingPitch"];
-
-            var DynamicYawLabel = Fields["YawLabel"];
-            var DynamicDampingYawMaxField = Fields["DynamicDampingYawMax"];
-            var DynamicDampingYawMinField = Fields["DynamicDampingYawMin"];
-            var DynamicDampingYawFactorField = Fields["dynamicSteerDampingYawFactor"];
-            var DynamicDampingYaw = Fields["dynamicDampingYaw"];
-            
-            var DynamicRollLabel = Fields["RollLabel"];
-            var DynamicDampingRollMaxField = Fields["DynamicDampingRollMax"];
-            var DynamicDampingRollMinField = Fields["DynamicDampingRollMin"];
-            var DynamicDampingRollFactorField = Fields["dynamicSteerDampingRollFactor"];
-            var DynamicDampingRoll = Fields["dynamicDampingRoll"];
-
-            
-            DampingMin.guiActive = !CustomDynamicAxisFields;
-            DampingMin.guiActiveEditor = !CustomDynamicAxisFields;
-            DampingMax.guiActive = !CustomDynamicAxisFields;
-            DampingMax.guiActiveEditor = !CustomDynamicAxisFields;
-            DampingFactor.guiActive = !CustomDynamicAxisFields;
-            DampingFactor.guiActiveEditor = !CustomDynamicAxisFields;
-            
-            DynamicPitchLabel.guiActive = CustomDynamicAxisFields;
-            DynamicPitchLabel.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingPitchMinField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingPitchMinField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingPitchMaxField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingPitchMaxField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingPitchFactorField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingPitchFactorField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingPitch.guiActive = CustomDynamicAxisFields; 
-            DynamicDampingPitch.guiActiveEditor = CustomDynamicAxisFields;
-
-            DynamicYawLabel.guiActive = CustomDynamicAxisFields;
-            DynamicYawLabel.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingYawMinField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingYawMinField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingYawMaxField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingYawMaxField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingYawFactorField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingYawFactorField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingYaw.guiActive = CustomDynamicAxisFields;
-            DynamicDampingYaw.guiActiveEditor = CustomDynamicAxisFields;
-
-            DynamicRollLabel.guiActive = CustomDynamicAxisFields;
-            DynamicRollLabel.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingRollMinField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingRollMinField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingRollMaxField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingRollMaxField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingRollFactorField.guiActive = CustomDynamicAxisFields;
-            DynamicDampingRollFactorField.guiActiveEditor = CustomDynamicAxisFields;
-            DynamicDampingRoll.guiActive = CustomDynamicAxisFields;
-            DynamicDampingRoll.guiActiveEditor = CustomDynamicAxisFields;
-            
-            Misc.Misc.RefreshAssociatedWindows(FindObjectOfType<BDGenericAIBase>().part);
+            InitDynamicSteerDamping();
         }
 
         //manueuverability and g loading data
@@ -514,21 +450,91 @@ namespace BDArmory.Modules
             if (DynamicDampingRollMin > DynamicDampingRollMax) { DynamicDampingRollMin = DynamicDampingRollMax; }
         }
 
+        public void InitDynamicSteerDamping()
+        {
+            var DampingMin = Fields["DynamicDampingMin"];
+            var DampingMax = Fields["DynamicDampingMax"];
+            var DampingFactor = Fields["dynamicSteerDampingFactor"];
+            
+            var DynamicPitchLabel = Fields["PitchLabel"];
+            var DynamicDampingPitchMaxField = Fields["DynamicDampingPitchMax"];
+            var DynamicDampingPitchMinField = Fields["DynamicDampingPitchMin"];
+            var DynamicDampingPitchFactorField = Fields["dynamicSteerDampingPitchFactor"];
+            var DynamicDampingPitch = Fields["dynamicDampingPitch"];
+
+            var DynamicYawLabel = Fields["YawLabel"];
+            var DynamicDampingYawMaxField = Fields["DynamicDampingYawMax"];
+            var DynamicDampingYawMinField = Fields["DynamicDampingYawMin"];
+            var DynamicDampingYawFactorField = Fields["dynamicSteerDampingYawFactor"];
+            var DynamicDampingYaw = Fields["dynamicDampingYaw"];
+            
+            var DynamicRollLabel = Fields["RollLabel"];
+            var DynamicDampingRollMaxField = Fields["DynamicDampingRollMax"];
+            var DynamicDampingRollMinField = Fields["DynamicDampingRollMin"];
+            var DynamicDampingRollFactorField = Fields["dynamicSteerDampingRollFactor"];
+            var DynamicDampingRoll = Fields["dynamicDampingRoll"];
+
+            
+            DampingMin.guiActive = !CustomDynamicAxisFields;
+            DampingMin.guiActiveEditor = !CustomDynamicAxisFields;
+            DampingMax.guiActive = !CustomDynamicAxisFields;
+            DampingMax.guiActiveEditor = !CustomDynamicAxisFields;
+            DampingFactor.guiActive = !CustomDynamicAxisFields;
+            DampingFactor.guiActiveEditor = !CustomDynamicAxisFields;
+            
+            DynamicPitchLabel.guiActive = CustomDynamicAxisFields;
+            DynamicPitchLabel.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingPitchMinField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingPitchMinField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingPitchMaxField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingPitchMaxField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingPitchFactorField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingPitchFactorField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingPitch.guiActive = CustomDynamicAxisFields; 
+            DynamicDampingPitch.guiActiveEditor = CustomDynamicAxisFields;
+
+            DynamicYawLabel.guiActive = CustomDynamicAxisFields;
+            DynamicYawLabel.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingYawMinField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingYawMinField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingYawMaxField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingYawMaxField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingYawFactorField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingYawFactorField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingYaw.guiActive = CustomDynamicAxisFields;
+            DynamicDampingYaw.guiActiveEditor = CustomDynamicAxisFields;
+
+            DynamicRollLabel.guiActive = CustomDynamicAxisFields;
+            DynamicRollLabel.guiActiveEditor = CustomDynamicAxisFields;
+            
+            DynamicDampingRollMinField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingRollMinField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingRollMaxField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingRollMaxField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingRollFactorField.guiActive = CustomDynamicAxisFields;
+            DynamicDampingRollFactorField.guiActiveEditor = CustomDynamicAxisFields;
+            DynamicDampingRoll.guiActive = CustomDynamicAxisFields;
+            DynamicDampingRoll.guiActiveEditor = CustomDynamicAxisFields;
+            
+            Misc.Misc.RefreshAssociatedWindows(FindObjectOfType<BDGenericAIBase>().part);
+        }
+
         protected override void Start()
         {
             base.Start();
 
             if (HighLogic.LoadedSceneIsFlight)
             {
-                maxAllowedCosAoA = (float)Math.Cos(maxAllowedAoA * Math.PI / 180.0);
+                maxAllowedCosAoA = (float) Math.Cos(maxAllowedAoA * Math.PI / 180.0);
                 lastAllowedAoA = maxAllowedAoA;
             }
-            
+
             SetSliderClamps("turnRadiusTwiddleFactorMin", "turnRadiusTwiddleFactorMax");
             SetSliderClamps("DynamicDampingMin", "DynamicDampingMax");
             SetSliderClamps("DynamicDampingPitchMin", "DynamicDampingPitchMax");
             SetSliderClamps("DynamicDampingYawMin", "DynamicDampingYawMax");
             SetSliderClamps("DynamicDampingRollMin", "DynamicDampingRollMax");
+            InitDynamicSteerDamping();
         }
 
         public override void ActivatePilot()
